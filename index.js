@@ -6,6 +6,7 @@ const app = express();
 
 const countries = require("./countries.js");
 
+// ROUTES
 app.get("/countries/:countryName", (req, res) => {
   const country = countries.countries.find((country) => {
     return country.name.common === req.params.countryName;
@@ -14,20 +15,25 @@ app.get("/countries/:countryName", (req, res) => {
   res.json(country.name.common);
 });
 
-// let countriesNames = [];
+app.get("/all", (req, res) => {
+  res.json(countries.countries);
+});
 
-// function getCountries() {
-//   axios.get("./countries.json").then((res) => {
-//     // console.log(res);
-//     countriesNames = res.data.map((country) => {
-//       return country.name.common;
-//     });
+// REQUETE AXIOS
+let countriesNames = [];
 
-//     console.log(countriesNames.join(" - "));
-//   });
-// }
+function getCountries() {
+  axios.get("http://localhost:8000/all").then((res) => {
+    // console.log(res);
+    countriesNames = res.data.map((country) => {
+      return country.name.common;
+    });
 
-// getCountries();
+    console.log(countriesNames.join(" - "));
+  });
+}
+
+getCountries();
 
 // démarrage serveur
 app.listen(8000, () => {
