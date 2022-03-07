@@ -16,6 +16,26 @@ app.get("/pokemons/:name", (req, res) => {
   res.json(pokemon);
 });
 
+app.get("/all", (req, res) => {
+  res.json(pokemons);
+});
+
+// REQUETE AXIOS
+let pokemonsNames = [];
+
+function getPokemons() {
+  axios.get("http://localhost:8000/all").then((res) => {
+    // console.log(res.data.pokemons);
+    pokemonsNames = res.data.pokemons.map((pokemon) => {
+      return pokemon.name;
+    });
+
+    console.log(pokemonsNames.join(" - "));
+  });
+}
+
+getPokemons();
+
 // démarrage serveur
 app.listen(8000, () => {
   console.log("Listening on port 8000");
